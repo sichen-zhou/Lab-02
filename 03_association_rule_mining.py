@@ -5,12 +5,10 @@ df = pd.read_pickle("res/UK.pkl")
 
 df.head()
 
-
 # %% convert dataframe to invoice-based transactional format
 
 df_invoice = df.groupby('InvoiceNo')['Description'].apply(list).reset_index()
 df_invoice.head()
-
 
 # %% apply apriori algorithm to find frequent items
 
@@ -32,7 +30,6 @@ from mlxtend.frequent_patterns import association_rules
 rules = association_rules(frequent_itemsets, min_threshold=0.01)
 rules
 
-
 # %% count of frequent itemsets that have more then 1 item
 
 frequent_itemsets_1 = frequent_itemsets[frequent_itemsets['itemsets'].apply(lambda x: len(x) > 1)]
@@ -53,7 +50,6 @@ frequent_itemsets_3
 frequent_itemsets_most = frequent_itemsets[frequent_itemsets['itemsets'].apply(lambda x: len(x) == 4)]
 frequent_itemsets_most
 
-
 # %% top 10 lift association rules
 
 rules.sort_values('lift', ascending=False).head(10)
@@ -63,20 +59,19 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 sns.scatterplot(x=rules["support"], y=rules["confidence"], alpha=0.5)
-plt.xlim(0.000,0.040)
-plt.ylim(0.60,0.95)
+plt.xlim(-0.002,0.041)
+plt.ylim(0.575,0.975)
 plt.xlabel("Support")
 plt.ylabel("Confidence")
 plt.title("Support vs Confidence")
-
 
 # %% scatterplot support vs lift
 import seaborn as sns
 import matplotlib.pyplot as plt
 
 sns.scatterplot(x=rules["support"], y=rules["lift"], alpha=0.5)
-plt.xlim(0.000,0.040)
-plt.ylim(10,90)
+plt.xlim(-0.001,0.0395)
+plt.ylim(6.75,87.5)
 plt.xlabel("Support")
-plt.ylabel("lift")
-plt.title("Support vs lift")
+plt.ylabel("Lift")
+plt.title("Support vs Lift")
